@@ -1,8 +1,8 @@
 # Belly Button Biodiversity
 
-![Bacteria by filterforge.com](app_screen_shot.png)
-![Bacteria by filterforge.com](app_screen_shot2.png)
-![Bacteria by filterforge.com](app_screen_shot3.png)
+![text](app_screen_shot.png)
+![text](app_screen_shot2.png)
+![text](app_screen_shot3.png)
 
 In this assignment, I build an interactive dashboard to explore the [Belly Button Biodiversity DataSet](http://robdunnlab.com/projects/belly-button-biodiversity/).
 

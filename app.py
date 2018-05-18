@@ -33,8 +33,8 @@ app = Flask(__name__)
     
 def index():
 
-    return "this is a main page"
-    #return render_template('index.html')
+    
+    return render_template('index.html')
 
 
 
@@ -49,12 +49,19 @@ def names():
     return jsonify(sample_name[1:])
 
 
-@app.route('/otu')
-def otu():
+@app.route('/otu/<sample>')
+def otu(sample):
 
-    result = [r[0] for r in session.query(OTU.otu_id).all()]
+    id = pd.read_csv("DataSets/belly_button_biodiversity_otu_id.csv", index_col='otu_id' )
+    samples= pd.read_csv("DataSets/belly_button_biodiversity_samples.csv",  index_col='otu_id' )    
+    samples = samples.fillna(0)
+    samples = samples.sort_values(sample, ascending= False)
+    merged = samples.merge(id, how = "left", left_index = True, right_index = True)
 
-    return jsonify(result)
+    discription = [cell for cell in merged['lowest_taxonomic_unit_found']]
+    
+
+    return jsonify(discription)
 
 
 @app.route('/metadata/<sample>')
@@ -92,21 +99,38 @@ def wfreq_samp(sample):
     
     return jsonify(wfreq)
 
-    
 
-@app.route('/samples/<sample>')
-def samp_samp(sample):
-    samples= pd.read_csv("DataSets/belly_button_biodiversity_samples.csv" )
-    samples = samples.fillna(0)
-    samples = samples.sort_values(sample, ascending= False)
-    out_id = [cell for cell in samples['otu_id']]
-    sample_values = [cell for cell in samples[sample]]
-    returned_list= [{
-            'otu_ids' : out_id,
-            'sample_values' : sample_values
-        }]
+@app.route('/samples/<sample_name>')
+def samples(sample_name):
+    # Query specified sample field + otu_id from the 'samples' table
+    query_values = f"SELECT {sample_name}, otu_id FROM samples ORDER BY {sample_name} DESC"
+    data = engine.execute(query_values).fetchall()
 
-    return jsonify(returned_list)
+    # Create lists of values and otu_id's
+    values = [item[0] for item in data]  
+    otus = [item[1] for item in data]
+
+    # Place the lists into an object
+    otus_and_values = {"otu_ids": otus, "sample_values": values}
+
+    # Return jsonified list
+    return jsonify(otus_and_values)
+
+  
+# by using pandas in csv sheets
+# @app.route('/samples/<sample>')
+# def samp_samp(sample):
+#     samples= pd.read_csv("DataSets/belly_button_biodiversity_samples.csv" )
+#     samples = samples.fillna(0)
+#     samples = samples.sort_values(sample, ascending= False)
+#     out_id = [cell for cell in samples['otu_id']]
+#     sample_values = [cell for cell in samples[sample]]
+#     returned_list= {
+#             'otu_ids' : out_id,
+#             'sample_values' : sample_values
+#         }
+
+#     return jsonify(returned_list)
 
 
 if __name__ == "__main__":

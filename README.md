@@ -1,8 +1,8 @@
 # Belly Button Biodiversity
 
-![text](images/app_screen_shot.png)
-![text](images/app_screen_shot2.png)
-![text](images/app_screen_shot3.png)
+![text](Images/app_screen_shot.png)
+![text](Images/app_screen_shot2.png)
+![text](Images/app_screen_shot3.png)
 
 In this assignment, I build an interactive dashboard to explore the [Belly Button Biodiversity DataSet](http://robdunnlab.com/projects/belly-button-biodiversity/).
 

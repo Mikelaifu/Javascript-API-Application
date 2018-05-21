@@ -1,7 +1,8 @@
 # Belly Button Biodiversity
 
-# Heroku Link : 
+### Heroku Link : 
 
+### screen shot : 
 ![text](Images/app_screen_shot.png)
 ![text](Images/app_screen_shot2.png)
 ![text](Images/app_screen_shot3.png)
